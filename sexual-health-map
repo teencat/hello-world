@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+    <head> <title>Toronto's Sexual Health Resource Map</title>
+		    <!-- jQueryMobile stylesheet and instructions for monitor width-->
+		 <link rel="stylesheet" href="jquery.mobile-1.4.5/jquery.mobile-1.4.5.css" />
+    <script src="jquery-3.3.1.js" type="text/javascript"></script>
+    <script src="jquery.mobile-1.4.5/jquery.mobile-1.4.5.css" type="text/javascript"></script>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8; width=device-width" name="viewport"/>
+		
+    </head>
+	<style>
+		{
+		background-color: beige;
+		}
+		.H1 {
+        font-family: Helvetica;
+        font-size: 18px;
+		color: #C96A9F;
+			}
+		
+		.H2{
+		font-family: Helvetica;
+        font-size: 12px;
+		}
+	</style>
+	    <body background-color="beige";>
+		    <!-- This is the first page -->
+   				 <section id="firstpage" data-role="page">
+	<header class="H1" data-role="header" align="center" data-position="fixed"> 
+		<h1>Toronto Sexual Health Resources</h1>
+			</header>
+			<div id='Subheader'>
+			  <h2 class="H2" align="center" data-position="fixed"> Finding resources just got easier </h2>
+			  </div>
+			<nav data-role="navbar">
+            <ul>
+                <li><a href="#" class="ui-btn ui-icon-plus ui-btn-icon-top ui-btn-active ui-state-persist">Home</a></li>
+                <li><a href="#secondpage" class="ui-btn ui-icon-minus ui-btn-icon-top">Resources</a></li>
+				 <li><a href="#thirdpage" class="ui-btn ui-icon-minus ui-btn-icon-top">About us</a></li>
+				 <li><a href="#fourthpage" class="ui-btn ui-icon-minus ui-btn-icon-top">Contact us</a></li>
+				 <li><a href="#fifthpage" class="ui-btn ui-icon-minus ui-btn-icon-top">Terms of Services and Privacy</a></li>
+            </ul>
+          </nav>
+<div id='searchBoxContainer' align="center"><input type= 'text' id= 'searchBox'/></div>
+        <div id='myMap' style='width: 100vw; height: 100vh;'></div>
+        <script type='text/javascript'>
+			var map;
+			function loadMapScenario() 
+			{
+				var defaultLocation = new Microsoft.Maps.Location(43.65857, -79.39908);
+				map = new Microsoft.Maps.Map(document.getElementById('myMap'), 
+						{
+							center: defaultLocation,
+							zoom: 14
+						});
+				
+				AddMandatoryPushpins () ;
+
+				Microsoft.Maps.loadModule('Microsoft.Maps.AutoSuggest', function () {
+					var options = {
+						maxResults: 4,
+						map: map
+					};
+					var manager = new Microsoft.Maps.AutosuggestManager(options);
+					manager.attachAutosuggest('#searchBox', '#searchBoxContainer', selectedSuggestion);
+				});
+				function selectedSuggestion(suggestionResult) {
+					map.entities.clear();
+					AddMandatoryPushpins();
+					map.setView({ bounds: suggestionResult.bestView });
+					var pushpin = new Microsoft.Maps.Pushpin(suggestionResult.location, { icon: 'https://bingmapsisdk.blob.core.windows.net/isdksamples/defaultPushpin.png', anchor: new Microsoft.Maps.Point(12, 39), title: suggestionResult.formattedSuggestion});
+					map.entities.push(pushpin);
+				}
+
+			}
+			function AddMandatoryPushpins ()
+			{
+				var CMA = new Microsoft.Maps.Location(43.65857, -79.39908) ;
+				var title='CAMH' ;
+				var subtitle = 'Hospital' ;
+				
+				var pushpin = new Microsoft.Maps.Pushpin(CMA, { icon: 'https://bingmapsisdk.blob.core.windows.net/isdksamples/defaultPushpin.png',
+				anchor: new Microsoft.Maps.Point(12, 39), text: 'A', title: title, subTitle: subtitle });
+				map.entities.push(pushpin);
+				
+				var loc1 = new Microsoft.Maps.Location(43.649687, -79.388625) ;
+				var title1 = 'Health and Wellness Centre';
+				var pushp1 = new Microsoft.Maps.Pushpin(loc1, { icon: 'https://bingmapsisdk.blob.core.windows.net/isdksamples/defaultPushpin.png',
+				anchor: new Microsoft.Maps.Point(12, 39), text: 'B', title: title1 });
+				map.entities.push(pushp1);
+				
+				var loc2 = new Microsoft.Maps.Location(43.653282, -79.391596) ;
+				var title2 = 'OCAD';
+				var pushp2 = new Microsoft.Maps.Pushpin(loc2, { icon: 'https://bingmapsisdk.blob.core.windows.net/isdksamples/defaultPushpin.png',
+				anchor: new Microsoft.Maps.Point(12, 39), text: 'C', title: title2 });
+				map.entities.push(pushp2);
+			}
+        </script>
+        <script 
+        	type="text/javascript"
+        	src='https://www.bing.com/api/maps/mapcontrol?key=bZaNqHTpc10VMc1jNwRg~248ZvrpsgxV8em7SbRSFMg~AnRwEtAELOj9AjRE1T-A6dLvO4s3xjR890Y5-6EL68hnz90WAHkU_MQZ3mc-v1O8&callback=loadMapScenario' async defer></script>
+	<footer data-role="footer" class="ui-bar" data-position="fixed">
+	        <p><a href="#fifthpage">Disclaimer</a></p>
+    </footer>
+			</section>
+			<!--- Second Page --->
+       <div id="secondpage" data-role="page" data-dialog="true" data-close-btn="right" data-theme="a">
+        <div data-role="header">
+          <h1>Resources</h1>
+        </div>
+        <div class="ui-content">
+          <p>Glossary, helpline numbers will slide ontop of the map.</p>
+        </div>
+    </div>
+    </body>
+</html>
